@@ -63,7 +63,7 @@ package codility.countingelements.MaxCounters;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
-// SOLVED Correctness 100% Performance 60% score 77% :(
+// SOLVED 100%
 public class Solution {
 
 	public Solution() {
@@ -71,20 +71,28 @@ public class Solution {
 	}
 
 	public int[] solution(int N, int[] A) {
-		int max = 0;
+
 		int[] counters = new int[N];
+
+		int last_max = 0;
+		int current_max = 0;
 		
 		for (int i = 0; i < A.length; i++) {
-			if(A[i] == N + 1) {
-				for (int cnt = 0; cnt < counters.length; cnt++) {
-					counters[cnt] = max;
-				}
-			}
-			else if(A[i] >= 1 && A[i] <= N) {
+			if (A[i] == N + 1) {
+				last_max = current_max;
+			} else if (A[i] >= 1 && A[i] <= N) {
 				int cnt = A[i] - 1;
-				max = Math.max(max, (counters[cnt] = counters[cnt] + 1));
+				if(counters[cnt] < last_max) {
+					counters[cnt] = last_max;
+				}
+				current_max = Math.max(current_max, (counters[cnt] = counters[cnt] + 1));
+			}
+		}
+		for (int i = 0; i < counters.length; i++) {
+			if(counters[i] < last_max) {
+				counters[i] = last_max;
 			}
 		}
 		return counters;
-    }	
+	}	
 }
