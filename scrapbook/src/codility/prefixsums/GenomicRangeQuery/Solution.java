@@ -2,6 +2,11 @@
 // Find the minimal nucleotide from a range of sequence DNA.
 package codility.prefixsums.GenomicRangeQuery;
 
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
 /*
 	A DNA sequence can be represented as a string consisting of the letters A, C, G and T, which correspond to the types of successive nucleotides in the sequence. Each nucleotide has an impact factor, which is an integer. Nucleotides of types A, C, G and T have impact factors of 1, 2, 3 and 4, respectively. You are going to answer several queries of the form: What is the minimal impact factor of nucleotides contained in a particular part of the given DNA sequence?
 	
@@ -48,7 +53,7 @@ package codility.prefixsums.GenomicRangeQuery;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
-// SOLVED Correctness 100% Performance 0% Score 62%
+// SOLVED Correctness 100% Performance 33% Score 75%
 public class Solution {
 
 	public Solution() {
@@ -56,38 +61,36 @@ public class Solution {
 	}
 
 	public int[] solution(String S, int[] P, int[] Q) {
-		int[] dst = new int[S.length()];
-		for (int i = 0; i < dst.length; i++) {
-			dst[i] = convert(S.charAt(i));
+		Map<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
+		for (int i = 0; i < S.length(); i++) {
+			int key = convert(S.charAt(i));
+			if(!map.containsKey(key)) {
+				map.put(key, new LinkedHashSet<Integer>());
+			}
+			map.get(key).add(i);
 		}
 		int[] result = new int[Q.length];
-		for (int i = 0; i < Q.length; i++) {
-			int p = P[i];
-			int q = Q[i];
-			int min = 4;
-			for (int j = p; j <= q; j++) {
-				min = Math.min(min, dst[j]);
-				if(min == 1) {
-					break;
+		for (int query = 0; query < Q.length; query++) {
+			int p = P[query];
+			int q = Q[query];
+			min_loop : for (int min = 1; min <= 4; min++) {
+				if(map.containsKey(min)) {
+					Set<Integer> set = map.get(min);
+					for (Integer integer : set) {
+						
+						if(integer < p) {
+							continue;
+						}
+						if(integer > q) {
+							break;
+						}
+						result[query] = min;
+						break min_loop;
+					}
 				}
 			}
-			result[i] = min;
 		}
 		return result;
-//		int[] result = new int[Q.length];
-//		for (int i = 0; i < Q.length; i++) {
-//			int p = P[i];
-//			int q = Q[i];
-//			int min = 4;
-//			for (int j = p; j <= q; j++) {
-//				min = Math.min(min, convert(S.charAt(j)));
-//				if(min == 1) {
-//					break;
-//				}
-//			}
-//			result[i] = min;
-//		}
-//		return result;
 	}
 	
 	private int convert(char ch) {
