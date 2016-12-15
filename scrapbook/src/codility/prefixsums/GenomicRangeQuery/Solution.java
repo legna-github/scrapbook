@@ -2,10 +2,6 @@
 // Find the minimal nucleotide from a range of sequence DNA.
 package codility.prefixsums.GenomicRangeQuery;
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
 
 /*
 	A DNA sequence can be represented as a string consisting of the letters A, C, G and T, which correspond to the types of successive nucleotides in the sequence. Each nucleotide has an impact factor, which is an integer. Nucleotides of types A, C, G and T have impact factors of 1, 2, 3 and 4, respectively. You are going to answer several queries of the form: What is the minimal impact factor of nucleotides contained in a particular part of the given DNA sequence?
@@ -53,7 +49,7 @@ import java.util.Set;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
-// SOLVED Correctness 100% Performance 33% Score 75%
+// TODO
 public class Solution {
 
 	public Solution() {
@@ -61,47 +57,6 @@ public class Solution {
 	}
 
 	public int[] solution(String S, int[] P, int[] Q) {
-		Map<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
-		for (int i = 0; i < S.length(); i++) {
-			int key = convert(S.charAt(i));
-			if(!map.containsKey(key)) {
-				map.put(key, new LinkedHashSet<Integer>());
-			}
-			map.get(key).add(i);
-		}
-		int[] result = new int[Q.length];
-		for (int query = 0; query < Q.length; query++) {
-			int p = P[query];
-			int q = Q[query];
-			min_loop : for (int min = 1; min <= 4; min++) {
-				if(map.containsKey(min)) {
-					Set<Integer> set = map.get(min);
-					for (Integer integer : set) {
-						
-						if(integer < p) {
-							continue;
-						}
-						if(integer > q) {
-							break;
-						}
-						result[query] = min;
-						break min_loop;
-					}
-				}
-			}
-		}
-		return result;
-	}
-	
-	private int convert(char ch) {
-		switch (ch) {
-		case 'A':
-			return 1;
-		case 'C':
-			return 2;
-		case 'G':
-			return 3;
-		}
-		return 4;
+		return new int[]{};
 	}
 }
