@@ -47,7 +47,7 @@ package codility.prefixsums.GenomicRangeQuery;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
-// FIXME Correctness 60%  Performance 100% Task Score 75%
+// SOLVED 100%
 public class Solution {
 
 	public Solution() {
@@ -74,18 +74,39 @@ public class Solution {
 			int p = P[i];
 			int q = Q[i];
 			
-			for (int counter = 0; counter < 4; counter++) {
-				if(p == q) {
-					result[i] = convert(S.charAt(p));
-					break;
-				}
-				if(counters[counter][p] < counters[counter][q]) {
-					result[i] = counter + 1;
-					break;
+			if(p == q) {
+				result[i] = convert(S.charAt(p));
+			}
+			else {
+				for (int counter = 0; counter < 4; counter++) {
+					if(extracted(counters, p, q, counter)) {
+						result[i] = counter + 1;
+						break;
+					}
 				}
 			}
 		}
 		return result;
+	}
+
+	private boolean extracted(int[][] counters, int p, int q, int counter) {
+		
+		// the counter changed in the [p,q]-interval 
+		if(counters[counter][p] < counters[counter][q]) {
+			return true;
+		}
+
+		// there is no change in the [p,q]-interval, let's then check if p is the point of change
+		// counters[counter][p - 1] != counters[counter][p]; 
+		// but p == 0  requires special handling as counters[counter][p - 1] will throw an ArrayIndexOutOfBoundsException 
+		
+		if (p == 0) {
+			// counters[counter][0] changed its value is different from 0
+			return counters[counter][p] != 0;
+		}
+		
+		// now it is safe to check if the value at p -1 is different from the value at p
+		return  counters[counter][p - 1] != counters[counter][p];
 	}
 
 	private char convert(char ch) {
