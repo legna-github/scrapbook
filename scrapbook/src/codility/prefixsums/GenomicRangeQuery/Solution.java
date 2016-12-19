@@ -79,7 +79,7 @@ public class Solution {
 			}
 			else {
 				for (int counter = 0; counter < 4; counter++) {
-					if(extracted(counters, p, q, counter)) {
+					if(hasLessImpact(counters, p, q, counter)) {
 						result[i] = counter + 1;
 						break;
 					}
@@ -89,7 +89,7 @@ public class Solution {
 		return result;
 	}
 
-	private boolean extracted(int[][] counters, int p, int q, int counter) {
+	private boolean hasLessImpact(int[][] counters, int p, int q, int counter) {
 		
 		// the counter changed in the [p,q]-interval 
 		if(counters[counter][p] < counters[counter][q]) {
