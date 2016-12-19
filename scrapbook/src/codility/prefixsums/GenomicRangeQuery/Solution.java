@@ -1,8 +1,6 @@
 // GenomicRangeQuery
 // Find the minimal nucleotide from a range of sequence DNA.
 package codility.prefixsums.GenomicRangeQuery;
-
-
 /*
 	A DNA sequence can be represented as a string consisting of the letters A, C, G and T, which correspond to the types of successive nucleotides in the sequence. Each nucleotide has an impact factor, which is an integer. Nucleotides of types A, C, G and T have impact factors of 1, 2, 3 and 4, respectively. You are going to answer several queries of the form: What is the minimal impact factor of nucleotides contained in a particular part of the given DNA sequence?
 	
@@ -49,7 +47,7 @@ package codility.prefixsums.GenomicRangeQuery;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
-// TODO
+// FIXME Correctness 60%  Performance 100% Task Score 75%
 public class Solution {
 
 	public Solution() {
@@ -57,6 +55,56 @@ public class Solution {
 	}
 
 	public int[] solution(String S, int[] P, int[] Q) {
-		return new int[]{};
+		
+		int[][] counters = new int[4][S.length()];
+		
+		counters[convert(S.charAt(0)) - 1][0]++;
+		
+		for (int counter = 1; counter < S.length(); counter++) {
+			for (int j = 0; j < 4; j++) {
+				counters[j][counter] = counters[j][counter - 1];
+			}
+			int g = convert(S.charAt(counter)) - 1;
+			counters[g][counter]++;
+		}
+		
+
+		int[] result = new int[Q.length];
+		for (int i = 0; i < Q.length; i++) {
+			int p = P[i];
+			int q = Q[i];
+			
+			for (int counter = 0; counter < 4; counter++) {
+				if(p == q) {
+					result[i] = convert(S.charAt(p));
+					break;
+				}
+				if(counters[counter][p] < counters[counter][q]) {
+					result[i] = counter + 1;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	private char convert(char ch) {
+		switch (ch) {
+		case 'A':
+			
+			return 1;
+
+		case 'C':
+			
+			return 2;
+		case 'G':
+			
+			return 3;
+			
+		case 'T':
+			
+			return 4;
+		}
+		throw new IllegalArgumentException();
 	}
 }

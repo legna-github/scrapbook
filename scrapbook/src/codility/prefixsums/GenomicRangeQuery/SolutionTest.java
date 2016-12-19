@@ -28,7 +28,7 @@ public class SolutionTest {
 
 	@Test
 	public void test() {
-		assertArrayEquals(new int[]{2,4,1}, new Solution().solution("CAGCCTA", new int[]{2, 5, 0}, new int[]{4, 5, 6}));
+		assertArrayEquals(new int[]{2,4,1,2}, new Solution().solution("CAGCCTA", new int[]{2, 5, 0, 3}, new int[]{4, 5, 6, 4}));
 		assertArrayEquals(new int[]{2,2,2}, new Solution().solution("CCCCCCCCCC", new int[]{2, 5, 0}, new int[]{4, 5, 6}));
 	}
 
