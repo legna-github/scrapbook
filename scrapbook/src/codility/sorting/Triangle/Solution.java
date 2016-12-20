@@ -1,6 +1,9 @@
 // Triangle
 // Determine whether a triangle can be built from a given set of edges.
 package codility.sorting.Triangle;
+
+import java.util.Arrays;
+
 /*
 	A zero-indexed array A consisting of N integers is given. A triplet (P, Q, R) is triangular if 0 ≤ P < Q < R < N and:
 	
@@ -38,6 +41,8 @@ package codility.sorting.Triangle;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
+// Correctness 90% Performance 100% Task Score 93%
+// failed extreme_arith_overflow1 overflow test, 3 MAXINTs
 public class Solution {
 
 	public Solution() {
@@ -45,6 +50,18 @@ public class Solution {
 	}
 
 	public int solution(int[] A) {
+		Arrays.sort(A);
+		for (int i = 0; i < A.length - 2; i++) {
+			if( isTriangle(A, i) ) {
+				return 1;
+			}
+		}
 		return 0;
+	}
+
+	private boolean isTriangle(int[] A, int i) {
+		return (A[i + 0] + A[i + 1] > A[i + 2]) 
+				&& (A[i + 1] + A[i + 2] > A[i + 0]) 
+				&& (A[i + 2] + A[i + 0] > A[i + 1]);
 	}
 }
