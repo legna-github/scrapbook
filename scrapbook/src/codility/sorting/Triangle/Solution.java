@@ -41,8 +41,7 @@ import java.util.Arrays;
 	expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 	Elements of input arrays can be modified.
  */
-// Correctness 90% Performance 100% Task Score 93%
-// failed extreme_arith_overflow1 overflow test, 3 MAXINTs
+// Solved 100%
 public class Solution {
 
 	public Solution() {
@@ -60,8 +59,8 @@ public class Solution {
 	}
 
 	private boolean isTriangle(int[] A, int i) {
-		return (A[i + 0] + A[i + 1] > A[i + 2]) 
-				&& (A[i + 1] + A[i + 2] > A[i + 0]) 
-				&& (A[i + 2] + A[i + 0] > A[i + 1]);
+		return (((long)A[i + 0]) + ((long)A[i + 1]) > A[i + 2]) 
+				&& (((long)A[i + 1]) + ((long)A[i + 2]) > A[i + 0]) 
+				&& (((long)A[i + 2]) + ((long)A[i + 0]) > A[i + 1]);
 	}
 }
