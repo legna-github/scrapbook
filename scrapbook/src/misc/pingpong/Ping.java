@@ -1,4 +1,4 @@
-package misc;
+package misc.pingpong;
 
 public class Ping extends PingPong {
 
